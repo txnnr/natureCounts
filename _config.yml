@@ -4,3 +4,5 @@ plugins:
 title: Birds - Point Count Performance
 description: Issues Faced and Remediations
 markdown: kramdown
+include:
+  - assets/css/custom.css
