@@ -33,7 +33,6 @@
    - Isolate touch handlers
 
 2. **Form State Lessons**:
-   ```text
    - Invalid states must persist through renders
    - Validation ≠ data filtering
    - Always batch related updates
