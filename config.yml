@@ -1,6 +1,4 @@
 title: Birds - Point Count Performance
 description: Issues Faced and Remediations
-theme: minima
-minima:
-  skin: dark
+theme: jekyll-theme-cayman-dark
 markdown: kramdown
