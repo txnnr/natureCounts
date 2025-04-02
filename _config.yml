@@ -6,6 +6,3 @@ title: Birds - Point Count Performance
 description: Issues Faced and Remediations
 markdown: kramdown
 
-sass:
-  sass_dir: _sass
-  style: compressed
