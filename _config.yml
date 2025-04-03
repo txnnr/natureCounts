@@ -5,7 +5,3 @@ plugins:
 title: Birds - Point Count Performance
 description: Issues Faced and Remediations
 markdown: kramdown
-
-theme: cayman
-sass:
-  style: compressed

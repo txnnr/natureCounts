@@ -10,6 +10,7 @@ nav_order: 2
   <a href="#findings" class="nav-item">Findings</a>
   <a href="#solutions" class="nav-item">Solutions</a>
 <a href="{% link floating-toolbar.md %}" class="nav-item">FloatingToolbar</a>
+
 </div>
 
 # PointCountMapStep Performance Discovery
