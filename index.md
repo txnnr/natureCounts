@@ -7,7 +7,7 @@ nav_order: 1
 # Birds - Point Count Performance
 
 <div class="nav-container">
-  <a href="{{ 'issues.md' | relative_url }}" class="nav-item">Identified Issues</a>
+  <a href="{{ '/issues/' | relative_url }}" class="nav-item">Identified Issues</a>
 </div>
 
 <div class="content-section">
