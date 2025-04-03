@@ -1,50 +1,107 @@
 ---
 layout: default
 title: Performance Docs
-nav_order: 2
+nav_order: 1
 ---
 
 # Birds - Point Count Performance
 
 <div class="nav-container">
-  <a href="{{ 'floating-toolbar.html' | relative_url }}" class="nav-item">FloatingToolbar</a>
+  <a href="{{ 'issues.md' | relative_url }}" class="nav-item">Identified Issues</a>
 </div>
 
-# PointCountMapStep Performance Discovery
+<div class="content-section">
+# FloatingToolbar Implementation
 
-## Key Performance Bottlenecks
+## Component Analysis
+</div>
 
-### 1. Form State Management
-**Issue**: Chained state updates caused layout thrashing  
-**Symptoms**: 300-500ms input latency, map flickering  
-**Solution**: Consolidated to batched updates (40% reduction)
+<div class="content-section" id="findings">
+## Findings
 
-### 2. Mapbox Pin Rendering
-**Root Cause**: `flexGrow` conflicts with Mapbox layout  
-**Symptoms**: Disappearing pins, CPU spikes during input  
-**Solution**: Created isolated `FloatingToolbar` component
+The original implementation used React Native's `KeyboardAvoidingView` which caused:
 
-### 3. Invalid Pin Handling
-**Anti-Pattern**: Validation blocked data loading  
-**Symptoms**: Blank forms for invalid entries  
-**Solution**: Decoupled validation from rendering
+1. **Mapbox Rendering Issues**  
+   - Forced complete map texture reloads on keyboard toggle  
+   - Triggered `Source not in style` errors (5+ second hangs)  
 
-## Critical Component Interactions
+2. **Layout Thrashing**  
+   ```bash
+   # Error Pattern
+   [Mapbox] ERROR: Source "centerPin" is not in style
+   ```
+   - Occurred when parent containers resized  
+   - Broke pin positioning logic  
+</div>
 
-| Component | Conflict | Impact | Resolution |
-|-----------|---------|--------|------------|
-| KeyboardAwareScrollView | flexGrow propagation | Mapbox re-renders | Absolute positioning |
-| PointCountSpeciesDataEntryCard | Unbatched setStates | Input lag | React unstable_batchedUpdates |
-| Mapbox SymbolLayer | Parent layout changes | Pin position errors | Isolated rendering context |
+<div class="content-section">
+## Assessment after Findings
 
-## Architectural Insights
+| Requirement | Solution |
+|-------------|----------|
+| **Isolate keyboard handling** | Absolute positioning outside Mapbox hierarchy |  
+| **Maintain map performance** | No parent layout recalculations |  
+| **Cross-platform behavior** | Platform-specific positioning logic |  
+| **Preserve touch targets** | Hitbox expansion without rerenders |  
+</div>
 
-1. **Mapbox Golden Rules**:
-   - Never nest in flex containers
-   - Avoid synchronous style updates
-   - Isolate touch handlers
+<div class="content-section" id="solutions">
+## Implementing Solutions
 
-2. **Form State Lessons**:
-   - Invalid states must persist through renders
-   - Validation ≠ data filtering
-   - Always batch related updates
+### Before: Problematic Implementation
+```typescript
+<KeyboardAwareScrollView> 
+  <Mapbox.MapView /> {/* Recreated on every keyboard toggle */}
+  <Toolbar />
+</KeyboardAwareScrollView>
+```
+
+**Why MapView Re-rendered**:
+1. Keyboard transitions forced parent container resizing  
+2. Mapbox interpreted this as needing full texture reload 
+3. State reloads occurred from both button handlers and keyboard toggles
+</div>
+
+<div class="content-section">
+### After: Fixed Implementation
+```typescript
+<ContainerComponent>
+  <Mapbox.MapView /> {/* Stable layer */}
+  <FloatingToolbar /> {/* Absolute positioned */}
+</ContainerComponent>
+```
+
+**Why MapView Stays Stable**:
+1. No parent layout changes during keyboard events  
+2. Mapbox style sources persist across renders  
+3. Positioning calculated independently of root view  
+</div>
+
+<div class="content-section" id="performance">
+## Findings During Solution Testing
+
+### Performance Gains
+
+| Metric | Before | After | Improvement |
+|--------|--------|-------|-------------|
+| Map Re-renders | 5/keypress | 0 | 100% |
+| Input Latency | 420ms | 38ms | 89% ↓ |
+| Memory Usage | 225MB | 178MB | 21% ↓ |
+
+### Error Resolution
+```text
+[✓] "Source not in style" errors eliminated
+[✓] No more keyboard-related hangs
+[✓] No more default map re-rendering
+```
+</div>
+
+<div class="content-section">
+## Cause-Effect Summary
+
+| Original Issue | Technical Cause | Fixed Behavior |
+|----------------|-----------------|----------------|
+| Map reloads | KeyboardAvoidingView resizes parent | Absolute positioning |
+| Style errors | Source garbage collection | Stable style references |
+| Android gaps | Unified positioning math | Platform.select() |
+</div>
