@@ -1,18 +1,27 @@
 ---
 title: Floating Toolbar
 permalink: /floating-toolbar/
-nav_order: 2
+nav_order: 1
 ---
 
+<div class="nav-container">
+  <a href="{{ site.baseurl }}/" class="nav-item">← Back to Main</a>
+  <a href="#findings" class="nav-item">Findings</a>
+  <a href="#solutions" class="nav-item">Solutions</a>
+  <a href="#performance" class="nav-item">Performance</a>
+</div>
+
+<div class="content-section">
 # FloatingToolbar Implementation
 
-[Back to main page]({{ site.baseurl }}/)
+## Component Analysis
+</div>
 
-
-# FloatingToolbar Component Analysis
-
+<div class="content-section" id="findings">
 ## Findings
+
 The original implementation used React Native's `KeyboardAvoidingView` which caused:
+
 1. **Mapbox Rendering Issues**  
    - Forced complete map texture reloads on keyboard toggle  
    - Triggered `Source not in style` errors (5+ second hangs)  
@@ -24,15 +33,20 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
    ```
    - Occurred when parent containers resized  
    - Broke pin positioning logic  
+</div>
 
+<div class="content-section">
 ## Assessment after Findings
+
 | Requirement | Solution |
 |-------------|----------|
 | **Isolate keyboard handling** | Absolute positioning outside Mapbox hierarchy |  
 | **Maintain map performance** | No parent layout recalculations |  
 | **Cross-platform behavior** | Platform-specific positioning logic |  
 | **Preserve touch targets** | Hitbox expansion without rerenders |  
+</div>
 
+<div class="content-section" id="solutions">
 ## Implementing Solutions
 
 ### Before: Problematic Implementation
@@ -42,11 +56,14 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
   <Toolbar />
 </KeyboardAwareScrollView>
 ```
+
 **Why MapView Re-rendered**:
 1. Keyboard transitions forced parent container resizing  
 2. Mapbox interpreted this as needing full texture reload 
-3. Whenever any button handlers would be triggered and cause state reloads you would get one state reload from the handler side effect + one additional, non avoidable reload when the keyboard hides or shows! 
+3. State reloads occurred from both button handlers and keyboard toggles
+</div>
 
+<div class="content-section">
 ### After: Fixed Implementation
 ```typescript
 <ContainerComponent>
@@ -54,14 +71,18 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
   <FloatingToolbar /> {/* Absolute positioned */}
 </ContainerComponent>
 ```
+
 **Why MapView Stays Stable**:
 1. No parent layout changes during keyboard events  
 2. Mapbox style sources persist across renders  
 3. Positioning calculated independently of root view  
+</div>
 
+<div class="content-section" id="performance">
 ## Findings During Solution Testing
 
 ### Performance Gains
+
 | Metric | Before | After | Improvement |
 |--------|--------|-------|-------------|
 | Map Re-renders | 5/keypress | 0 | 100% |
@@ -74,11 +95,14 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 [✓] No more keyboard-related hangs
 [✓] No more default map re-rendering
 ```
+</div>
 
-
+<div class="content-section">
 ## Cause-Effect Summary
+
 | Original Issue | Technical Cause | Fixed Behavior |
 |----------------|-----------------|----------------|
 | Map reloads | KeyboardAvoidingView resizes parent | Absolute positioning |
 | Style errors | Source garbage collection | Stable style references |
 | Android gaps | Unified positioning math | Platform.select() |
+</div>
