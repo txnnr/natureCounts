@@ -1,6 +1,6 @@
 ---
-title: Floating Toolbar
-permalink: /floating-toolbar/
+title: Identified Issues
+permalink: /issues/
 nav_order: 1
 ---
 
