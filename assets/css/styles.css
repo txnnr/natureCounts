@@ -195,6 +195,8 @@ code {
     }
 }
 
+
+/* override tables */
 .main-content table {
-    display: flex-row !important;
+    display: contents !important;
 }
