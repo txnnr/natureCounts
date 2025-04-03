@@ -5,4 +5,13 @@ plugins:
 title: Birds - Point Count Performance
 description: Issues Faced and Remediations
 markdown: kramdown
-url: "https://txnnr.github.io/natureCounts"
+
+
+baseurl: "/natureCounts"
+url: "https://txnnr.github.io"
+permalink: pretty
+
+
+include:
+  - _includes
+  - assets
