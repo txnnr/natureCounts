@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Performance Docs
-nav_order: 1
+nav_order: 2
 ---
 
 # Birds - Point Count Performance
@@ -9,7 +9,7 @@ nav_order: 1
 <div class="nav-container">
   <a href="#findings" class="nav-item">Findings</a>
   <a href="#solutions" class="nav-item">Solutions</a>
-<a href="/floating-toolbar/" class="nav-item">FloatingToolbar</a>
+<a href="{% link floating-toolbar.md %}" class="nav-item">FloatingToolbar</a>
 </div>
 
 # PointCountMapStep Performance Discovery
