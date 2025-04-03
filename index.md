@@ -7,10 +7,7 @@ nav_order: 2
 # Birds - Point Count Performance
 
 <div class="nav-container">
-  <a href="#findings" class="nav-item">Findings</a>
-  <a href="#solutions" class="nav-item">Solutions</a>
-<a href="{% link floating-toolbar.md %}" class="nav-item">FloatingToolbar</a>
-
+  <a href="{{ 'floating-toolbar.html' | relative_url }}" class="nav-item">FloatingToolbar</a>
 </div>
 
 # PointCountMapStep Performance Discovery
