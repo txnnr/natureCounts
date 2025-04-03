@@ -36,7 +36,7 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 | **Maintain map performance** | No parent layout recalculations |  
 | **Cross-platform behavior** | Platform-specific positioning logic |  
 | **Preserve touch targets** | Hitbox expansion without rerenders |  
-</div>
+
 
 ## Implementing Solutions
 
