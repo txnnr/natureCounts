@@ -7,17 +7,12 @@ nav_order: 1
 # Birds - Point Count Performance
 
 <div class="nav-container">
-  <a href="{{ 'issues.md' | relative_url }}" class="nav-item">Identified Issues</a>
+  <a href="{{ '/issues/' | relative_url }}" class="nav-item">Identified Issues</a>
 </div>
 
-<div class="content-section">
 # FloatingToolbar Implementation
 
-## Component Analysis
-</div>
-
-<div class="content-section" id="findings">
-## Findings
+## Component Analysis Findings
 
 The original implementation used React Native's `KeyboardAvoidingView` which caused:
 
@@ -32,9 +27,7 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
    ```
    - Occurred when parent containers resized  
    - Broke pin positioning logic  
-</div>
 
-<div class="content-section">
 ## Assessment after Findings
 
 | Requirement | Solution |
@@ -45,7 +38,6 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 | **Preserve touch targets** | Hitbox expansion without rerenders |  
 </div>
 
-<div class="content-section" id="solutions">
 ## Implementing Solutions
 
 ### Before: Problematic Implementation
@@ -60,9 +52,7 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 1. Keyboard transitions forced parent container resizing  
 2. Mapbox interpreted this as needing full texture reload 
 3. State reloads occurred from both button handlers and keyboard toggles
-</div>
 
-<div class="content-section">
 ### After: Fixed Implementation
 ```typescript
 <ContainerComponent>
@@ -75,9 +65,6 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 1. No parent layout changes during keyboard events  
 2. Mapbox style sources persist across renders  
 3. Positioning calculated independently of root view  
-</div>
-
-<div class="content-section" id="performance">
 ## Findings During Solution Testing
 
 ### Performance Gains
@@ -94,9 +81,6 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 [✓] No more keyboard-related hangs
 [✓] No more default map re-rendering
 ```
-</div>
-
-<div class="content-section">
 ## Cause-Effect Summary
 
 | Original Issue | Technical Cause | Fixed Behavior |
@@ -104,4 +88,3 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 | Map reloads | KeyboardAvoidingView resizes parent | Absolute positioning |
 | Style errors | Source garbage collection | Stable style references |
 | Android gaps | Unified positioning math | Platform.select() |
-</div>
