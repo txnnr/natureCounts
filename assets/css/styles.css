@@ -194,3 +194,7 @@ code {
         padding: 20px;
     }
 }
+
+.main-content table {
+    display: flex-row !important;
+}
