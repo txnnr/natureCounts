@@ -6,58 +6,68 @@
     --accent-blue: #00a2ff;
     --text-light: #e0e0e0;
     --text-muted: #a0a0a0;
-  }
-  
-  body {
+}
+
+body {
     background-color: var(--secondary-dark);
     color: var(--text-light);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+        Arial, sans-serif;
     line-height: 1.6;
     margin: 0;
     padding: 20px;
     max-width: 1200px;
     margin: 0 auto;
-  }
-  
-  /* ===== Typography ===== */
-  h1, h2, h3, h4, h5, h6 {
+    padding-top: 20px;
+}
+
+/* ===== Typography ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
     color: var(--accent-green);
     margin-top: 1.5em;
     margin-bottom: 0.5em;
-  }
-  
-  h1 {
+}
+
+h1 {
     border-bottom: 2px solid var(--accent-green);
     padding-bottom: 10px;
-  }
-  
-  a {
+}
+
+a {
     color: var(--accent-blue);
     text-decoration: none;
     transition: color 0.2s ease;
-  }
-  
-  a:hover {
+}
+
+a:hover {
     color: var(--accent-green);
-  }
-  
-  /* ===== Navigation Bar ===== */
-  .nav-container {
-    background-color: var(--primary-dark);
+}
+
+/* ===== Updated Navigation Bar ===== */
+.nav-container {
+    background-color: rgba(10, 10, 10, 0.9);
+    /* Slightly transparent */
     padding: 15px 25px;
-    border-radius: 8px;
-    margin: 30px 0;
-    box-shadow: 0 4px 15px rgba(0, 255, 100, 0.15);
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    border: 1px solid var(--accent-green);
     position: sticky;
-    top: 20px;
-    z-index: 100;
-  }
-  
-  .nav-item {
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0, 255, 100, 0.15);
+    border-bottom: 1px solid var(--accent-green);
+    border-radius: 0;
+    /* Removed rounded corners for header */
+    margin: 0 0 30px 0;
+    /* Reset margins */
+    backdrop-filter: blur(8px);
+    /* Frosted glass effect */
+    transition: all 0.3s ease;
+}
+
+.nav-item {
     color: var(--accent-green);
     text-decoration: none;
     font-weight: 600;
@@ -68,17 +78,17 @@
     background-color: rgba(0, 255, 100, 0.08);
     display: flex;
     align-items: center;
-  }
-  
-  .nav-item:hover {
+}
+
+.nav-item:hover {
     background-color: rgba(0, 255, 100, 0.2);
     color: var(--accent-green);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 255, 100, 0.2);
-  }
-  
-  .nav-item::before {
-    content: '';
+}
+
+.nav-item::before {
+    content: "";
     position: absolute;
     bottom: -3px;
     left: 50%;
@@ -87,93 +97,100 @@
     height: 2px;
     background-color: var(--accent-blue);
     transition: width 0.3s ease;
-  }
-  
-  .nav-item:hover::before {
+}
+
+.nav-item:hover::before {
     width: 80%;
-  }
-  
-  .nav-item.active {
+}
+
+/* Scrolled state - more transparent */
+.nav-container.scrolled {
+    background-color: rgba(10, 10, 10, 0.7);
+    border-bottom-color: rgba(0, 255, 100, 0.5);
+}
+
+.nav-item.active {
     background-color: rgba(0, 162, 255, 0.2);
     color: var(--accent-blue);
     border-left: 3px solid var(--accent-blue);
-  }
-  
-  /* ===== Content Sections ===== */
-  .content-section {
+}
+
+/* ===== Content Sections ===== */
+.content-section {
     background-color: var(--primary-dark);
     padding: 25px;
     border-radius: 8px;
     margin-bottom: 30px;
     border: 1px solid rgba(0, 255, 100, 0.1);
-  }
-  
-  /* ===== Tables ===== */
-  table {
+}
+
+/* ===== Tables ===== */
+table {
     border-collapse: collapse;
     width: 100%;
     margin: 25px 0;
     border: 1px solid var(--accent-green);
     box-shadow: 0 0 10px rgba(0, 255, 100, 0.05);
-  }
-  
-  th {
+}
+
+th {
     background-color: rgba(0, 255, 100, 0.1);
     color: var(--accent-green);
     text-align: left;
     padding: 15px;
     font-weight: 600;
-  }
-  
-  td {
+}
+
+td {
     padding: 12px 15px;
     border-bottom: 1px solid rgba(0, 255, 100, 0.1);
-  }
-  
-  tr:hover {
+}
+
+tr:hover {
     background-color: rgba(0, 255, 100, 0.05);
-  }
-  
-  /* ===== Code Blocks ===== */
-  pre, code {
+}
+
+/* ===== Code Blocks ===== */
+pre,
+code {
     background-color: rgba(0, 0, 0, 0.3);
     border: 1px solid rgba(0, 255, 100, 0.2);
     border-radius: 4px;
-    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-  }
-  
-  pre {
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+pre {
     padding: 15px;
     overflow-x: auto;
-  }
-  
-  code {
+}
+
+code {
     padding: 2px 5px;
     font-size: 0.9em;
-  }
-  
-  /* ===== Footer ===== */
-  .footer {
+}
+
+/* ===== Footer ===== */
+.footer {
     text-align: center;
     margin-top: 50px;
     padding: 20px;
     color: var(--text-muted);
     font-size: 0.9em;
     border-top: 1px solid rgba(0, 255, 100, 0.1);
-  }
-  
-  /* ===== Responsive Adjustments ===== */
-  @media (max-width: 768px) {
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
     .nav-container {
-      flex-direction: column;
-      gap: 8px;
+        flex-direction: column;
+        gap: 8px;
     }
-    
+
     body {
-      padding: 15px;
+        padding: 15px;
     }
-    
+
     .content-section {
-      padding: 20px;
+        padding: 20px;
     }
-  }
+}
