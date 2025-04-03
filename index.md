@@ -51,7 +51,54 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 **Why MapView Re-rendered**:
 1. Keyboard transitions forced parent container resizing  
 2. Mapbox interpreted this as needing full texture reload 
-3. State reloads occurred from both button handlers and keyboard toggles
+3. State reloads occurred from button handlers and keyboard toggles
+
+     **meaning:  any button handlers which causes change in the application state [eg: adding or editing a pin] we would get one re-render for that update in state from the button handler + any other triggers based on that state update AND we get the default re-render due to the layout issues**
+
+### Take a look here where you have this handleOnPress method wrapped inside the KeyboardAwareScrollView.
+
+The method alone is doing heavy processing causing state re-renders due to manipulating the pins you get that + the default re-render when the keyboard opens and when it closes!
+
+
+```typescript
+<KeyboardAwareScrollView>
+	<MapboxGL.MapView onPress={handleOnPress}>
+</KeyboardAwareScrollView>
+
+```
+
+```typescript
+const [pins, setPins] = 
+  useState<IFeature>(INITIAL_PINS_FEATURE_COLLECTION);
+
+
+const handleOnPress = () => {
+// ..some logic
+
+
+//logic that is going to be setting state & causing re-renders via the setState actions such as setPins or setBirds
+
+tempBirds.push(newBird);
+setPins({ features: tempPinFeatures, type: 'FeatureCollection' });
+setBirds(tempBirds);
+
+if (activePin !== undefined) {
+  onPointCountSpeciesDataEntryDone(tempPinFeatures);
+}
+
+if (isPointCountSpeciesDataEntryCardVisible === true) {
+  resetPointCountSpeciesDataEntryForm(DEFAULT_RECORD);
+}
+
+setActivePin(newBird);
+isNewPin.current = true;
+setIsPointCountSpeciesDataEntryCardVisible(true);
+setSearchSpeciesInput('');
+
+}
+
+//more logic
+```
 
 ### After: Fixed Implementation
 ```typescript
@@ -65,6 +112,7 @@ The original implementation used React Native's `KeyboardAvoidingView` which cau
 1. No parent layout changes during keyboard events  
 2. Mapbox style sources persist across renders  
 3. Positioning calculated independently of root view  
+
 ## Findings During Solution Testing
 
 ### Performance Gains
