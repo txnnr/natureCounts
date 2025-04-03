@@ -7,8 +7,6 @@ nav_order: 1
 # Birds - Point Count Performance
 
 <div class="nav-container">
-  <a href="#findings" class="nav-item">Findings</a>
-  <a href="#solutions" class="nav-item">Solutions</a>
 <a href="/floating-toolbar/" class="nav-item">FloatingToolbar</a>
 </div>
 
